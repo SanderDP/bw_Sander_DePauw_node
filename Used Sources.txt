@@ -4,3 +4,7 @@
 - setting up nodemon: https://www.npmjs.com/package/nodemon
 - installing postman: https://www.postman.com/downloads/?utm_source=postman-home
 - using postman: https://circleci.com/blog/testing-an-api-with-postman/?utm_source=google&utm_medium=sem&utm_campaign=sem-google-dg--emea-en-dsa-maxConv-auth-nb&utm_term=g_-_c__dsa_&utm_content=&gclid=Cj0KCQiA_P6dBhD1ARIsAAGI7HDxEC3SQBrYLpp_cnOJG2H2og1gpazVo7DN-g36C8UKDGW0BrhzB68aAldrEALw_wcB#c-consent-modal
+- validating request params with yup: https://blog.tericcabrel.com/validate-request-parameter-nodejs-yup/
+- schema validation with yup: https://dev.to/franciscomendes10866/schema-validation-with-yup-and-express-js-3l19
+- yup functionalities: https://www.npmjs.com/package/yup#mixeddefaultvalue-any-schema
+- salting passwords: https://www.makeuseof.com/nodejs-bcrypt-hash-verify-salt-password/
