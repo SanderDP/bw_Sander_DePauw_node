@@ -3,11 +3,10 @@ var router = express.Router();
 var db = require('../database');
 
 var validate = require('../validators/validator');
-var schema = require('../schemas/register-user-schema');
+var registerUserSchema = require('../schemas/register-user-schema');
+var updateUserSchema = require('../schemas/update-user-schema');
 
 var bcrypt = require('bcrypt');
-const { array } = require('yup');
-const { DATE, TIMESTAMP } = require('mysql/lib/protocol/constants/types');
 
 /* GET users listing. */
 router.get('/get', function (req, res, next) {
@@ -27,8 +26,45 @@ router.get('/get', function (req, res, next) {
   });
 });
 
+/* PUT update user data*/
+router.put('/edit/:id', validate(updateUserSchema), (req, res) => {
+  db.getConnection(async (err, connection) => {
+    if (err) throw err;
+    var sql = 'SELECT * FROM users WHERE name = ' + db.escape(req.body.name);
+    connection.query(sql, function (err, result) {
+      if (err) throw err;
+      if (!result.length) {
+        sql = "SELECT * FROM users WHERE email = " + db.escape(req.body.email);
+        connection.query(sql, async function (err, result) {
+          if (err) throw err;
+          if (!result.length) {
+            sql = 'UPDATE users SET name = ?, email = ?, birthday = ?, avatar = ?, about_me = ?, updated_at = ? WHERE id = ' + db.escape(req.params.id);
+            var values = [
+              req.body.name,
+              req.body.email,
+              req.body.birthday,
+              req.body.avatar,
+              req.body.about_me,
+              Date.now()
+            ];
+            connection.query(sql, values, function (err, result) {
+              if (err) throw err;
+              res.send('succesfully updated user info');
+            });
+            connection.release();
+          } else {
+            res.send('Email is already linked to an account.');
+          }
+        });
+      } else {
+        res.send('Username is already in use.');
+      }
+    });
+  });
+});
+
 /* POST new user */
-router.post('/register', validate(schema), (req, res) => {
+router.post('/register', validate(registerUserSchema), (req, res) => {
   db.getConnection(async (err, connection) => {
     if (err) throw err;
     var sql = 'SELECT * FROM users WHERE name = ' + db.escape(req.body.name);
@@ -62,6 +98,23 @@ router.post('/register', validate(schema), (req, res) => {
         res.send('Username is already in use.');
       }
     });
+  });
+});
+
+/* DELETE user by name */
+router.delete('/delete', function (req, res, next) {
+  db.getConnection((err, connection) => {
+    if (err) throw err;
+    var sql = 'DELETE FROM users WHERE name = ' + db.escape(req.query.name);
+    connection.query(sql, function (err, result) {
+      if (err) throw err;
+      if (result.affectedRows > 0){
+        res.send('user succefully deleted');
+      } else{
+        res.send('no user with this username in database');
+      }
+    });
+    connection.release();
   });
 });
 
