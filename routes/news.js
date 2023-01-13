@@ -20,6 +20,19 @@ router.get('/get', function (req, res, next) {
     });
 });
 
+/* GET only the second and third newspost ever */
+router.get('/getSecondAndThird', function (req, res, next) {
+    db.getConnection((err, connection) => {
+        if (err) throw err;
+        var sql = 'SELECT * FROM news LIMIT 2 OFFSET 1'
+        connection.query(sql, function (err, result) {
+            if (err) throw err;
+            res.send(result);
+        });
+        connection.release();
+    });
+});
+
 /* POST new newspost */
 router.post('/create/:user_id', validate(createNewsPostSchema), (req, res) => {
     db.getConnection(async (err, connection) => {
