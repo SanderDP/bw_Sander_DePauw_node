@@ -2,3 +2,5 @@
 - setting up node.js: https://levelup.gitconnected.com/set-up-and-run-a-simple-node-server-project-38b403a3dc09
 - setting up express: https://expressjs.com/en/starter/generator.html
 - setting up nodemon: https://www.npmjs.com/package/nodemon
+- installing postman: https://www.postman.com/downloads/?utm_source=postman-home
+- using postman: https://circleci.com/blog/testing-an-api-with-postman/?utm_source=google&utm_medium=sem&utm_campaign=sem-google-dg--emea-en-dsa-maxConv-auth-nb&utm_term=g_-_c__dsa_&utm_content=&gclid=Cj0KCQiA_P6dBhD1ARIsAAGI7HDxEC3SQBrYLpp_cnOJG2H2og1gpazVo7DN-g36C8UKDGW0BrhzB68aAldrEALw_wcB#c-consent-modal
