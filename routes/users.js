@@ -5,6 +5,7 @@ var db = require('../database');
 var validate = require('../validators/validator');
 var registerUserSchema = require('../schemas/register-user-schema');
 var updateUserSchema = require('../schemas/update-user-schema');
+var changeAdminStatusSchema = require('../schemas/change-admin-status-schema.js');
 
 var bcrypt = require('bcrypt');
 
@@ -14,6 +15,7 @@ router.get('/get', function (req, res, next) {
     if (err) throw err;
     var sql = null;
     if (req.query.name) {
+      // if the url sends "?name=..." this function wll send back the user data from this particular user
       sql = 'SELECT * FROM users WHERE name = ' + db.escape(req.query.name);
     } else {
       sql = 'SELECT * FROM users';
@@ -63,6 +65,19 @@ router.put('/edit/:id', validate(updateUserSchema), (req, res) => {
   });
 });
 
+/* PUT make user admin */
+router.put('/changeAdminStatus/:id', validate(changeAdminStatusSchema), (req, res) => {
+  db.getConnection( (err, connection) => {
+    if (err) throw err;
+    var sql = 'UPDATE users SET is_admin = ' + db.escape(req.body.is_admin) +  ' WHERE id = ' + db.escape(req.params.id);
+    connection.query(sql, function(err, result){
+      if (err) throw err;
+      res.send('succesfully changed admin status');
+    })
+    connection.release();
+  })
+})
+
 /* POST new user */
 router.post('/register', validate(registerUserSchema), (req, res) => {
   db.getConnection(async (err, connection) => {
@@ -108,9 +123,9 @@ router.delete('/delete', function (req, res, next) {
     var sql = 'DELETE FROM users WHERE name = ' + db.escape(req.query.name);
     connection.query(sql, function (err, result) {
       if (err) throw err;
-      if (result.affectedRows > 0){
+      if (result.affectedRows > 0) {
         res.send('user succefully deleted');
-      } else{
+      } else {
         res.send('no user with this username in database');
       }
     });
