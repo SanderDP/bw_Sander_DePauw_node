@@ -4,7 +4,6 @@ var db = require('../database');
 
 var validate = require('../validators/validator');
 var createNewsPostSchema = require('../schemas/create-newspost-schema');
-var updateNewsPost = require('../schemas/update-newspost-schema');
 const updateNewsPostSchema = require('../schemas/update-newspost-schema');
 
 /* GET news listing ordered by newest first. */
@@ -34,6 +33,7 @@ router.get('/getSecondAndThird', function (req, res, next) {
 });
 
 /* POST new newspost */
+// This route requires a user id to be part of the url as well as a JSON file to be sent. If the JSON file is missing required fields, the route will send back an error.
 router.post('/create/:user_id', validate(createNewsPostSchema), (req, res) => {
     db.getConnection(async (err, connection) => {
         if (err) throw err;
@@ -55,6 +55,7 @@ router.post('/create/:user_id', validate(createNewsPostSchema), (req, res) => {
 });
 
 /* PUT update newspost data*/
+// This route requires an id to be part of the url as well as a JSON file to be sent. If the JSON file is missing required fields, the route will send back an error.
 router.put('/edit/:id', validate(updateNewsPostSchema), (req, res) => {
     db.getConnection(async (err, connection) => {
         if (err) throw err;
@@ -74,6 +75,7 @@ router.put('/edit/:id', validate(updateNewsPostSchema), (req, res) => {
 });
 
 /* DELETE user by name */
+// This route requires an id to be part of the url.
 router.delete('/delete/:id', function (req, res, next) {
     db.getConnection((err, connection) => {
         if (err) throw err;

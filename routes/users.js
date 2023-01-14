@@ -29,6 +29,7 @@ router.get('/get', function (req, res, next) {
 });
 
 /* PUT update user data*/
+// This route expects both an id in the query as well as a JSON file to be sent. If the JSON file is missing required fields, the route will send back an error.
 router.put('/edit/:id', validate(updateUserSchema), (req, res) => {
   db.getConnection(async (err, connection) => {
     if (err) throw err;
@@ -66,6 +67,7 @@ router.put('/edit/:id', validate(updateUserSchema), (req, res) => {
 });
 
 /* PUT make user admin */
+// This route expects an id in the query as well as a JSON file to be sent. If the JSON file is missing a is_admin parameter, the route will send back an error.
 router.put('/changeAdminStatus/:id', validate(changeAdminStatusSchema), (req, res) => {
   db.getConnection( (err, connection) => {
     if (err) throw err;
@@ -79,6 +81,7 @@ router.put('/changeAdminStatus/:id', validate(changeAdminStatusSchema), (req, re
 })
 
 /* POST new user */
+// This route requires a JSON file to be sent. If the JSON file is missing required fields, the route will send back an error.
 router.post('/register', validate(registerUserSchema), (req, res) => {
   db.getConnection(async (err, connection) => {
     if (err) throw err;
@@ -117,6 +120,7 @@ router.post('/register', validate(registerUserSchema), (req, res) => {
 });
 
 /* DELETE user by name */
+// This route requires the url to have "?name=..." in it.
 router.delete('/delete', function (req, res, next) {
   db.getConnection((err, connection) => {
     if (err) throw err;
