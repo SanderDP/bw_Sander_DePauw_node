@@ -5,7 +5,7 @@ var db = require('../database');
 var validate = require('../validators/validator');
 var registerUserSchema = require('../schemas/register-user-schema');
 var updateUserSchema = require('../schemas/update-user-schema');
-var changeAdminStatusSchema = require('../schemas/change-admin-status-schema.js');
+var changeAdminStatusSchema = require('../schemas/change-admin-status-schema');
 
 var bcrypt = require('bcrypt');
 
